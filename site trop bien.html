@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriel (FARMOUZ) &mdash; Portfolio & Services</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vscode: {
+                            bg: '#18181c',
+                            cardBg: '#1e1e24',
+                            sidebar: '#222228',
+                            activity: '#2d2d35',
+                            border: '#2e2e38',
+                            accentCyan: '#00f0ff',
+                            accentPink: '#ff007f',
+                            accentGreen: '#00ff88',
+                            statusbar: '#007acc',
+                            lineNumber: '#858585',
+                            text: '#e2e8f0'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0d0d11;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Quadrillage discret en fond */
+        .vscode-grid {
+            background-size: 32px 32px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        }
+
+        /* Coins cyber décoratifs */
+        .cyber-corner {
+            position: relative;
+        }
+        .cyber-corner::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 8px;
+            height: 8px;
+            border-top: 2px solid #00ff88;
+            border-left: 2px solid #00ff88;
+        }
+        .cyber-corner::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 8px;
+            height: 8px;
+            border-bottom: 2px solid #00ff88;
+            border-right: 2px solid #00ff88;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #18181c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #33333d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #007acc;
+        }
+
+        .glow-btn {
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+        .glow-btn:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.7);
+        }
+    </style>
+</head>
+<body class="vscode-grid min-h-screen flex flex-col justify-between p-3 sm:p-6 selection:bg-[#007acc] selection:text-white">
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-12 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-vscode-cardBg border border-vscode-statusbar text-white px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 font-mono text-xs">
+        <i class="fa-solid fa-circle-check text-green-400 text-base"></i>
+        <span id="toast-msg">Identifiant Discord copié ! (@frmz.2070)</span>
+    </div>
+
+    <!-- Conteneur Principal Portfolio / VS Code Theme -->
+    <div class="max-w-7xl mx-auto w-full bg-vscode-bg border border-vscode-border rounded-xl overflow-hidden shadow-2xl flex flex-col my-auto">
+        
+        <!-- Barre de Titre de l'Application -->
+        <div class="bg-[#141418] border-b border-vscode-border px-4 py-2.5 flex items-center justify-between font-mono text-xs text-gray-400 select-none">
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#ff5f56] inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-[#27c93f] inline-block"></span>
+                <span class="ml-3 text-gray-300 hidden sm:inline text-[11px]"><i class="fa-solid fa-microchip text-vscode-accentGreen mr-1.5"></i> Gabriel (FARMOUZ) &mdash; Portfolio & Services</span>
+            </div>
+            <div class="text-gray-300 font-sans font-semibold text-xs tracking-wide">
+                GABRIEL &bull; <span class="text-vscode-accentGreen">FARMOUZ</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+                <button onclick="copyDiscord()" class="hover:text-white transition-colors flex items-center gap-1.5 bg-[#007acc]/20 hover:bg-[#007acc]/30 px-2.5 py-1 rounded border border-[#007acc]/40 text-[#4fc1ff] font-mono text-[11px]">
+                    <i class="fa-brands fa-discord"></i> @frmz.2070
+                </button>
+            </div>
+        </div>
+
+        <!-- Section Haut : 3D CPU Microchip + Fiche Présentation à la 1ère personne -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 border-b border-vscode-border">
+            
+            <!-- Gauche: Modèle 3D CPU Microchip -->
+            <div class="lg:col-span-5 bg-vscode-sidebar p-4 sm:p-6 flex flex-col items-center justify-between border-b lg:border-b-0 lg:border-r border-vscode-border relative">
+                
+                <div class="w-full flex items-center justify-between font-mono text-[11px] text-gray-400 bg-vscode-bg px-3 py-1.5 rounded border border-vscode-border">
+                    <span class="flex items-center gap-1.5 text-vscode-accentGreen">
+                        <i class="fa-solid fa-microchip"></i> prout
+                    </span>
+                    <span class="text-[10px] text-green-400 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-green-400 animate-ping inline-block"></span> Interactive 3D
+                    </span>
+                </div>
+
+                <!-- Canvas 3D -->
+                <div id="canvas-container" class="w-full h-[280px] sm:h-[320px] relative flex items-center justify-center my-2">
+                    <!-- Injected Three.js Canvas -->
+                </div>
+
+                <!-- Badges rapides sous le 3D -->
+                <div class="w-full grid grid-cols-2 gap-2 font-mono text-[11px]">
+                    <div class="bg-vscode-bg p-2.5 rounded border border-vscode-border flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-red-400"></i>
+                        <div>
+                            <div class="text-gray-400 text-[9px] uppercase">Région</div>
+                            <div class="text-white font-bold">Meurthe-et-Moselle (54)</div>
+                        </div>
+                    </div>
+                    <div class="bg-vscode-bg p-2.5 rounded border border-vscode-border flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-vscode-accentGreen"></i>
+                        <div>
+                            <div class="text-gray-400 text-[9px] uppercase">Expérience</div>
+                            <div class="text-white font-bold">4+ Ans</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Droite: Présentation à la 1ère Personne -->
+            <div class="lg:col-span-7 bg-vscode-bg p-5 sm:p-8 flex flex-col justify-between space-y-6">
+                
+                <!-- En-tête profil -->
+                <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                        <span class="px-2.5 py-0.5 rounded-full bg-vscode-accentGreen/10 border border-vscode-accentGreen/30 text-vscode-accentGreen text-xs font-mono font-medium">
+                            👋 Développeur & Créateur
+                        </span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-vscode-accentCyan/10 border border-vscode-accentCyan/30 text-vscode-accentCyan text-xs font-mono font-medium">
+                            🟢 Disponible pour vos projets
+                        </span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
+                        Bonjour, je suis Gabriel <span class="text-transparent bg-clip-text bg-gradient-to-r from-vscode-accentGreen to-vscode-accentCyan">(FARMOUZ)</span>
+                    </h1>
+                    <p class="text-gray-400 text-sm mt-1 font-mono">
+                        16 ans &bull; Passionné d'informatique, de développement & de création numérique.
+                    </p>
+                </div>
+
+                <!-- Description simple à la 1ère personne -->
+                <div class="bg-vscode-cardBg p-4 sm:p-5 rounded-xl border border-vscode-border leading-relaxed text-gray-300 text-sm space-y-3">
+                    <p>
+                        Créateur passionné avec plus de <strong>4 ans d'expérience</strong> dans la création de solutions sur mesure, je conçois des <strong>bots Discord automatisés</strong>, réalise des <strong>montages vidéo dynamiques</strong> pour les réseaux sociaux, et propose du support technique ainsi que du développement web.
+                    </p>
+                    <p class="text-xs text-gray-400">
+                        Je traite chaque projet avec rigueur et minutie pour vous garantir des résultats propres, modernes et performants.
+                    </p>
+                </div>
+
+                <!-- Grille de compétences clés -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="p-3 bg-vscode-sidebar rounded-lg border border-vscode-border text-center">
+                        <i class="fa-brands fa-python text-blue-400 text-xl mb-1"></i>
+                        <div class="text-white text-xs font-bold">Python</div>
+                        <div class="text-[10px] text-gray-400">Bots & Scripts</div>
+                    </div>
+                    <div class="p-3 bg-vscode-sidebar rounded-lg border border-vscode-border text-center">
+                        <i class="fa-brands fa-discord text-[#5865F2] text-xl mb-1"></i>
+                        <div class="text-white text-xs font-bold">Discord.py</div>
+                        <div class="text-[10px] text-gray-400">Automation</div>
+                    </div>
+                    <div class="p-3 bg-vscode-sidebar rounded-lg border border-vscode-border text-center">
+                        <i class="fa-solid fa-film text-pink-400 text-xl mb-1"></i>
+                        <div class="text-white text-xs font-bold">Montage FX</div>
+                        <div class="text-[10px] text-gray-400">TikTok / Shorts</div>
+                    </div>
+                    <div class="p-3 bg-vscode-sidebar rounded-lg border border-vscode-border text-center">
+                        <i class="fa-solid fa-microchip text-vscode-accentGreen text-xl mb-1"></i>
+                        <div class="text-white text-xs font-bold">Hardware PC</div>
+                        <div class="text-[10px] text-gray-400">Montage & Config</div>
+                    </div>
+                </div>
+
+                <!-- Mes Réseaux Sociaux -->
+                <div>
+                    <div class="text-xs font-mono text-gray-400 mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-link text-vscode-accentGreen"></i> Retrouvez-moi sur mes réseaux :
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <a href="https://x.com/farmouz270" target="_blank" class="px-3 py-2 bg-vscode-sidebar border border-vscode-border hover:border-white rounded-lg flex items-center gap-2 text-xs text-gray-300 hover:text-white transition-all group">
+                            <i class="fa-brands fa-x-twitter text-white text-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium truncate">X (Twitter)</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@farmouz270" target="_blank" class="px-3 py-2 bg-vscode-sidebar border border-vscode-border hover:border-cyan-400 rounded-lg flex items-center gap-2 text-xs text-gray-300 hover:text-white transition-all group">
+                            <i class="fa-brands fa-tiktok text-cyan-400 text-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium truncate">TikTok</span>
+                        </a>
+                        <a href="https://www.instagram.com/farmouz2070" target="_blank" class="px-3 py-2 bg-vscode-sidebar border border-vscode-border hover:border-pink-500 rounded-lg flex items-center gap-2 text-xs text-gray-300 hover:text-white transition-all group">
+                            <i class="fa-brands fa-instagram text-pink-500 text-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium truncate">Instagram</span>
+                        </a>
+                        <a href="https://discord.com/users/1468307005201580176" target="_blank" class="px-3 py-2 bg-vscode-sidebar border border-vscode-border hover:border-[#5865F2] rounded-lg flex items-center gap-2 text-xs text-gray-300 hover:text-white transition-all group">
+                            <i class="fa-brands fa-discord text-[#5865F2] text-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium truncate">Discord</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Section Prestations : 3 Cartes -->
+        <div class="p-6 sm:p-8 bg-vscode-bg border-b border-vscode-border">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="text-xs font-mono text-vscode-accentGreen uppercase tracking-widest bg-vscode-accentGreen/10 px-3 py-1 rounded-full border border-vscode-accentGreen/20">
+                    Mes Services & Prestations
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-2">
+                    Ce que je peux réaliser pour vous
+                </h2>
+            </div>
+
+            <!-- Grille des 3 Services -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Carte 1: Bots & Automation Python -->
+                <div class="bg-vscode-cardBg p-6 rounded-xl border border-vscode-border cyber-corner flex flex-col justify-between hover:border-vscode-accentCyan/50 transition-all duration-300">
+                    <div>
+                        <div class="w-12 h-12 rounded-lg bg-vscode-accentCyan/10 border border-vscode-accentCyan/30 flex items-center justify-center text-vscode-accentCyan text-2xl mb-4">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">
+                            Bots & Automation Python
+                        </h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                            Développement de bots complets sous <strong class="text-yellow-400">discord.py</strong> : modération automatique, gestion des rôles, tickets et commandes interactives.
+                        </p>
+                    </div>
+                    <button onclick="openContactModal('Bots & Automation Python')" class="mt-6 w-full py-2.5 bg-vscode-sidebar hover:bg-vscode-accentCyan hover:text-black border border-vscode-border text-white text-xs font-mono font-bold rounded-lg transition-all">
+                        Solliciter ce service
+                    </button>
+                </div>
+
+                <!-- Carte 2: Montage Vidéo & FX -->
+                <div class="bg-vscode-cardBg p-6 rounded-xl border border-vscode-border cyber-corner flex flex-col justify-between hover:border-vscode-accentPink/50 transition-all duration-300">
+                    <div>
+                        <div class="w-12 h-12 rounded-lg bg-vscode-accentPink/10 border border-vscode-accentPink/30 flex items-center justify-center text-vscode-accentPink text-2xl mb-4">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">
+                            Montage Vidéo & FX
+                        </h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                            Création de contenus pour formats courts (<strong class="text-pink-500">TikTok</strong>, <strong class="text-red-500">Shorts</strong>), bandes-annonces de serveurs Discord et sound design soigné.
+                        </p>
+                    </div>
+                    <button onclick="openContactModal('Montage Vidéo & FX')" class="mt-6 w-full py-2.5 bg-vscode-sidebar hover:bg-vscode-accentPink hover:text-white border border-vscode-border text-white text-xs font-mono font-bold rounded-lg transition-all">
+                        Solliciter ce service
+                    </button>
+                </div>
+
+                <!-- Carte 3: Hardware & Web Vitrine -->
+                <div class="bg-vscode-cardBg p-6 rounded-xl border border-vscode-border cyber-corner flex flex-col justify-between hover:border-vscode-accentGreen/50 transition-all duration-300">
+                    <div>
+                        <div class="w-12 h-12 rounded-lg bg-vscode-accentGreen/10 border border-vscode-accentGreen/30 flex items-center justify-center text-vscode-accentGreen text-2xl mb-4">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">
+                            Hardware & Web Vitrine
+                        </h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                            Montage PC, optimisation de performances, diagnostic système et réalisation de sites vitrines élégants en HTML/CSS/Tailwind.
+                        </p>
+                    </div>
+                    <button onclick="openContactModal('Hardware & Web Vitrine')" class="mt-6 w-full py-2.5 bg-vscode-sidebar hover:bg-vscode-accentGreen hover:text-black border border-vscode-border text-white text-xs font-mono font-bold rounded-lg transition-all">
+                        Solliciter ce service
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Section Engagement Bénévolat -->
+        <div class="p-6 sm:p-8 bg-vscode-sidebar">
+            <div class="bg-gradient-to-r from-[#18241b] to-[#121c2b] p-6 sm:p-8 rounded-2xl border border-vscode-accentGreen/40 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative overflow-hidden">
+                
+                <div class="space-y-3 max-w-3xl z-10">
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vscode-accentGreen/10 border border-vscode-accentGreen/40 text-vscode-accentGreen font-mono text-xs font-bold">
+                        🤝 ENGAGEMENT BÉNÉVOLAT
+                    </span>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-white">
+                        Un projet ambitieux de jeu vidéo ou pour une PME ?
+                    </h3>
+                    <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                        Afin de monter continuellement en compétences, je propose également mes services <strong class="text-vscode-accentGreen underline underline-offset-4">gratuitement</strong> pour aider des projets sérieux de jeux vidéo, petites entreprises ou serveurs communautaires.
+                    </p>
+                </div>
+
+                <button onclick="openContactModal('Projet Bénévole / PME / Jeu Vidéo')" class="z-10 px-6 py-3.5 bg-vscode-accentGreen text-black font-mono font-bold text-xs rounded-xl hover:bg-white transition-all duration-300 whitespace-nowrap glow-btn flex items-center gap-2">
+                    Me proposer un projet &rarr;
+                </button>
+            </div>
+        </div>
+
+        <!-- VS Code Status Bar -->
+        <div class="bg-vscode-statusbar text-white px-4 py-1.5 flex items-center justify-between font-mono text-[11px] select-none">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-code-branch"></i> main*</span>
+                <span class="hidden sm:inline"><i class="fa-solid fa-circle-check"></i> Gabriel / FARMOUZ Ready</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span>Gabriel / FARMOUZ</span>
+                <span class="bg-white/20 px-1.5 py-0.5 rounded">2026</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Mini Pop-up Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-vscode-cardBg border border-vscode-border rounded-2xl max-w-md w-full p-6 relative shadow-2xl text-center space-y-5 transform transition-all">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="w-14 h-14 mx-auto rounded-full bg-vscode-accentGreen/10 border border-vscode-accentGreen/30 flex items-center justify-center text-vscode-accentGreen text-2xl">
+                <i class="fa-solid fa-paper-plane"></i>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-extrabold text-white">Contactez-moi !</h3>
+                <p class="text-xs text-vscode-accentGreen font-mono mt-1" id="modal-service-tag">Pour échanger sur votre demande</p>
+            </div>
+
+            <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                Pour me solliciter ou me proposer votre projet, le moyen le plus simple et rapide est de me contacter directement sur <strong>Discord</strong> ou <strong>TikTok</strong> :
+            </p>
+
+            <div class="space-y-3 pt-1">
+                <!-- Bouton Action Discord -->
+                <a href="https://discord.com/users/1468307005201580176" target="_blank" onclick="copyDiscordAndNotify()" class="flex items-center justify-between p-3.5 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/40 rounded-xl transition-all group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-[#5865F2] text-white flex items-center justify-center text-xl shadow-md">
+                            <i class="fa-brands fa-discord"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-xs font-bold text-white group-hover:text-[#5865F2] transition-colors">Sur Discord</div>
+                            <div class="text-[11px] font-mono text-gray-400">@frmz.2070</div>
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-mono font-bold text-[#5865F2] bg-[#5865F2]/20 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+                        Copier & Contact <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </span>
+                </a>
+
+                <!-- Bouton Action TikTok -->
+                <a href="https://www.tiktok.com/@farmouz270" target="_blank" class="flex items-center justify-between p-3.5 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 rounded-xl transition-all group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-500 text-black flex items-center justify-center text-xl shadow-md font-bold">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">Sur TikTok</div>
+                            <div class="text-[11px] font-mono text-gray-400">@farmouz270</div>
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-mono font-bold text-cyan-400 bg-cyan-500/20 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+                        Me contacter <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </span>
+                </a>
+            </div>
+
+            <button onclick="closeContactModal()" class="w-full py-2 bg-vscode-sidebar hover:bg-vscode-border border border-vscode-border text-gray-400 hover:text-white text-xs font-mono rounded-lg transition-colors">
+                Fermer
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts & Three.js 3D CPU Generation -->
+    <script>
+        // Copier Identifiant Discord
+        function copyDiscord() {
+            navigator.clipboard.writeText('frmz.2070');
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Copier Discord au clic depuis la modal
+        function copyDiscordAndNotify() {
+            navigator.clipboard.writeText('frmz.2070');
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = "Pseudo Discord copied ! (@frmz.2070)";
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Modal Contact Logic
+        function openContactModal(serviceName) {
+            if (serviceName) {
+                document.getElementById('modal-service-tag').innerText = `Service sélectionné : ${serviceName}`;
+            } else {
+                document.getElementById('modal-service-tag').innerText = 'Pour échanger sur votre demande';
+            }
+            document.getElementById('contact-modal').classList.remove('hidden');
+        }
+
+        function closeContactModal() {
+            document.getElementById('contact-modal').classList.add('hidden');
+        }
+
+        // Three.js 3D CPU Microchip Model
+        window.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('canvas-container');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 8.5;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Light setup
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(ambientLight);
+
+            const pointLight1 = new THREE.PointLight(0x00ff88, 3, 50);
+            pointLight1.position.set(10, 10, 10);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0x00f0ff, 2, 50);
+            pointLight2.position.set(-10, -10, 10);
+            scene.add(pointLight2);
+
+            // Groupe principal CPU
+            const cpuGroup = new THREE.Group();
+
+            // 1. PCB / Base substrate (Vert Foncé Métallique)
+            const pcbGeo = new THREE.BoxGeometry(3.0, 3.0, 0.25);
+            const pcbMat = new THREE.MeshStandardMaterial({
+                color: 0x0a2218,
+                roughness: 0.3,
+                metalness: 0.7
+            });
+            const pcbMesh = new THREE.Mesh(pcbGeo, pcbMat);
+            cpuGroup.add(pcbMesh);
+
+            // 2. Heat Spreader / Die border (Cadre noir métallique)
+            const dieBorderGeo = new THREE.BoxGeometry(1.9, 1.9, 0.12);
+            const dieBorderMat = new THREE.MeshStandardMaterial({
+                color: 0x141820,
+                roughness: 0.2,
+                metalness: 0.9
+            });
+            const dieBorderMesh = new THREE.Mesh(dieBorderGeo, dieBorderMat);
+            dieBorderMesh.position.z = 0.15;
+            cpuGroup.add(dieBorderMesh);
+
+            // 3. Central Silicon Die Glowing Core (Carré Néon Vert au centre)
+            const dieGeo = new THREE.BoxGeometry(1.2, 1.2, 0.1);
+            const dieMat = new THREE.MeshStandardMaterial({
+                color: 0x00ff88,
+                emissive: 0x00cc66,
+                emissiveIntensity: 0.8,
+                roughness: 0.1,
+                metalness: 0.9
+            });
+            const dieMesh = new THREE.Mesh(dieGeo, dieMat);
+            dieMesh.position.z = 0.22;
+            cpuGroup.add(dieMesh);
+
+            // 4. Broches / Pins (3 de chaque côté)
+            const pinMat = new THREE.MeshStandardMaterial({
+                color: 0x00ff88,
+                emissive: 0x004422,
+                emissiveIntensity: 0.5,
+                metalness: 0.8,
+                roughness: 0.2
+            });
+
+            const offsets = [-0.8, 0, 0.8];
+            
+            // Broches Haut & Bas
+            offsets.forEach(x => {
+                const topPin = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.5, 0.15), pinMat);
+                topPin.position.set(x, 1.72, 0);
+                cpuGroup.add(topPin);
+
+                const botPin = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.5, 0.15), pinMat);
+                botPin.position.set(x, -1.72, 0);
+                cpuGroup.add(botPin);
+            });
+
+            // Broches Gauche & Droite
+            offsets.forEach(y => {
+                const leftPin = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.32, 0.15), pinMat);
+                leftPin.position.set(-1.72, y, 0);
+                cpuGroup.add(leftPin);
+
+                const rightPin = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.32, 0.15), pinMat);
+                rightPin.position.set(1.72, y, 0);
+                cpuGroup.add(rightPin);
+            });
+
+            scene.add(cpuGroup);
+
+            // Anneau orbital 1 : Néon Vert
+            const ring1Geo = new THREE.TorusGeometry(2.6, 0.035, 16, 100);
+            const ring1Mat = new THREE.MeshBasicMaterial({ color: 0x00ff88 });
+            const ring1Mesh = new THREE.Mesh(ring1Geo, ring1Mat);
+            ring1Mesh.rotation.x = Math.PI / 2.3;
+            scene.add(ring1Mesh);
+
+            // Anneau orbital 2 : Néon Cyan
+            const ring2Geo = new THREE.TorusGeometry(3.1, 0.025, 16, 100);
+            const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+            const ring2Mesh = new THREE.Mesh(ring2Geo, ring2Mat);
+            ring2Mesh.rotation.x = Math.PI / 1.9;
+            scene.add(ring2Mesh);
+
+            // Inclinaison réactive à la souris
+            let targetX = 0, targetY = 0;
+            document.addEventListener('mousemove', (e) => {
+                const windowHalfX = window.innerWidth / 2;
+                const windowHalfY = window.innerHeight / 2;
+                targetX = (e.clientX - windowHalfX) * 0.0006;
+                targetY = (e.clientY - windowHalfY) * 0.0006;
+            });
+
+            // Boucle d'animation
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                // Flottement doux du CPU
+                cpuGroup.position.y = Math.sin(elapsedTime * 2) * 0.1;
+                
+                // Rotation & Inclinaison
+                cpuGroup.rotation.y += (targetX - cpuGroup.rotation.y) * 0.05;
+                cpuGroup.rotation.x += (targetY - cpuGroup.rotation.x) * 0.05;
+
+                // Rotation continue douce sur lui-même
+                cpuGroup.rotation.z = Math.sin(elapsedTime * 0.5) * 0.05;
+
+                // Animation des anneaux de circuits
+                ring1Mesh.rotation.z = elapsedTime * 0.4;
+                ring2Mesh.rotation.z = -elapsedTime * 0.3;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Gestion du redimensionnement
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        });
+    </script>
+</body>
+</html>
